@@ -12,7 +12,7 @@ class Usuario
     }
     public function registrar($nome, $fone, $email, $senha)
     {
-        $query = "INSERT INTO " . $this->table_name . " (nome, fone, email, senha) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO " . $this->table_name . " (nome, fone, email, senha) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $hashed_password = password_hash($senha, PASSWORD_BCRYPT);
         $stmt->execute([$nome, $fone, $email, $hashed_password]);
