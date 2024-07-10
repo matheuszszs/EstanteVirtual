@@ -3,7 +3,7 @@ class Livro
 {
     private $conn;
     private $table_name = "livros";
-    
+
 
 
     public function __construct($db)
@@ -14,7 +14,8 @@ class Livro
     {
         $query = "INSERT INTO " . $this->table_name . " (titulo, autor, genero, ano_publicacao) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([$titulo, $autor, $genero, $ano_publicacao]);
+        $hashed_password = password_hash($ano_publicacao, PASSWORD_BCRYPT);
+        $stmt->execute([$titulo, $autor, $genero, $hashed_password]);
         return $stmt;
     }
 
@@ -34,13 +35,14 @@ class Livro
     {
         return $this->registrar($titulo, $autor, $genero, $ano_publicacao);
     }
-    public function ler($search = '', $order_by = '') {
+    public function ler($search = '', $order_by = '')
+    {
         $query = "SELECT * FROM livros";
         $conditions = [];
         $params = [];
 
         if ($search) {
-           $conditions[] = "(titulo LIKE :search OR genero LIKE :search)";
+            $conditions[] = "(titulo LIKE :search OR genero LIKE :search)";
             $params[':search'] = '%' . $search . '%';
         }
 
@@ -58,9 +60,10 @@ class Livro
         $stmt->execute($params);
         return $stmt;
     }
-    public function lerPerfUsu($idlivro){
+    public function lerPerfUsu($idlivro)
+    {
         $query = "SELECT * FROM " . $this->table_name . " WHERE idlivro = ?";
-        
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$idlivro]);
         return $stmt;

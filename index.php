@@ -16,7 +16,6 @@ $dados = $l->ler($search, $order_by);
 
 //Obter dados das noticias
 //$dados = $noticias->ler($search, $order_by);
-
 ?>
 
 <!DOCTYPE html>
